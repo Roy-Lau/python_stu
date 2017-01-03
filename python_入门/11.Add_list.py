@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 print '末尾添加'
 L1 = ['Adam','Lisa','Bart']
-L1.append('Paul')
+L1.append("\'Paul\':99")
 print L1
 print '头部添加/指定位置添加'
 L2 = ['Adam','Lisa','Bart']

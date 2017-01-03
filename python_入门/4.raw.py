@@ -1,3 +1,4 @@
+
 # -*- coding: UTF-8 -*-
 raw = r'\(~_~)/ \(~_~)/'	
 raw1 = '''Line 1
@@ -9,7 +10,7 @@ print raw1
 work = '\"To be, or not to be\": that is the question.\nWhether it\'s nobler in the mind to suffer.'
 work1 = '''"To be, or not to be": that is the question.
 Whether it's nobler in the mind to suffer.'''
-print work + '————————————————————这是目标'
+print work + '————————————————————这是目标'   
 print work1 + '————————————————————这是结果'
 
 
