@@ -10,10 +10,14 @@
 #         break
 # print sum
 sum = 0
-x = ?
+x = 0
+y = 0
 while True:
     x = x + 1
     if x > 100:
         break
-       ??? 
+    y = y + 2
+    if x == y:
+        continue
+    sum = sum + x 
     print sum

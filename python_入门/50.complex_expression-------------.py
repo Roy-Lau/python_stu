@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#¸´ÔÓ±í´ïÊ½
+#å¤æ‚è¡¨è¾¾å¼
 d = { 'Adam': 95, 'Lisa': 85, 'Bart': 59 }
 
 tds = [
@@ -12,9 +12,9 @@ print '<tr><th>Name</th><th>Score</th><tr>'
 print '\n'.join(tds)
 print '</table>'
 
-#ÔÚÉú³ÉµÄ±í¸ñÖĞ£¬¶ÔÓÚÃ»ÓĞ¼°¸ñµÄÍ¬Ñ§£¬Çë°Ñ·ÖÊı±ê¼ÇÎªºìÉ«¡£
+#åœ¨ç”Ÿæˆçš„è¡¨æ ¼ä¸­ï¼Œå¯¹äºæ²¡æœ‰åŠæ ¼çš„åŒå­¦ï¼Œè¯·æŠŠåˆ†æ•°æ ‡è®°ä¸ºçº¢è‰²ã€‚
 
-#ÌáÊ¾£ººìÉ«¿ÉÒÔÓÃ <td style="color:red"> ÊµÏÖ¡£
+#æç¤ºï¼šçº¢è‰²å¯ä»¥ç”¨ <td style="color:red"> å®ç°ã€‚
 
 def generate_tr(name, score):
     return '<tr><td>%s</td><td>%s</td></tr>' % (name, score)

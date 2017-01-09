@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-print [x*x for x in range(1,11)]
+print [x * x for x in range(1,11)]
 
 print [x * x for x in range(1,11) if x % 2 == 0]
 
-#Çë±àĞ´Ò»¸öº¯Êı£¬Ëü½ÓÊÜÒ»¸ö list£¬È»ºó°ÑlistÖĞµÄËùÓĞ×Ö·û´®±ä³É´óĞ´ºó·µ»Ø£¬·Ç×Ö·û´®ÔªËØ½«±»ºöÂÔ¡£
+#è¯·ç¼–å†™ä¸€ä¸ªå‡½æ•°ï¼Œå®ƒæ¥å—ä¸€ä¸ª listï¼Œç„¶åæŠŠlistä¸­çš„æ‰€æœ‰å­—ç¬¦ä¸²å˜æˆå¤§å†™åè¿”å›ï¼Œéå­—ç¬¦ä¸²å…ƒç´ å°†è¢«å¿½ç•¥ã€‚
 
-#ÌáÊ¾£º
-#1. isinstance(x, str) ¿ÉÒÔÅĞ¶Ï±äÁ¿ x ÊÇ·ñÊÇ×Ö·û´®£»
-#2. ×Ö·û´®µÄ upper() ·½·¨¿ÉÒÔ·µ»Ø´óĞ´µÄ×ÖÄ¸¡£
-def touppers(l):
-    for k in l:
+#æç¤ºï¼š
+#1. isinstance(x, str) å¯ä»¥åˆ¤æ–­å˜é‡ x æ˜¯å¦æ˜¯å­—ç¬¦ä¸²ï¼›
+#2. å­—ç¬¦ä¸²çš„ upper() æ–¹æ³•å¯ä»¥è¿”å›å¤§å†™çš„å­—æ¯ã€‚
+def touppers(angs):
+    for k in angs:
         return k
 #       if isinstance(k, str):
-#           return k[:1],upper()
+#           return k[:1].upper()
 print touppers(['hello','world',101])
 
+#ä¸ºä»€ä¹ˆåœ¨å‡½æ•°å¼å†… for in éå†æ•°ç»„å¤±è´¥ï¼ˆåªå‡ºæ¥ä¸€ä¸ªï¼‰

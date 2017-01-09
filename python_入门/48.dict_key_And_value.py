@@ -7,7 +7,7 @@ d = {
 print d.items()
 for key,value in d.items():
     print key,':',value
-print '''С�ջ񣺣������ֿܷ�str��int����������ո�'''
+print '''小收获：，逗号能分开str和int，逗号输出空格'''
 
 sum = 0.0
 for k,v in d.items():
