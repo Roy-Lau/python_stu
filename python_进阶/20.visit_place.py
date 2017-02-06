@@ -26,6 +26,7 @@ print p._title
 #以单下划线开头的属性"_xxx"虽然也可以被外部访问，但是，按照习惯，他们不应该被外部访问。
 
 #作业，请给Person类的__init__方法中添加name和score参数，并把score绑定到__score属性上，看看外部是否能访问到。
+
 class person(object):
     def __init__(self, name, score):
         self.name = name
