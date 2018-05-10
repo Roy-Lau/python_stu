@@ -148,3 +148,64 @@ app.register_blueprint(admin_blueprint,url_prefix="admin")
 from . import admin
 @admin.route("/")
 ```
+
+### 会员及会员登录日志数据模型设计
+
+1、 安装数据库连接依赖包
+
+```bash
+pip install flask-sqlalchemy
+```
+
+2、 定义`mysql`数据库连接
+
+[Flask-SQLAlchemy详细配置](http://www.pythondoc.com/flask-sqlalchemy/config.html)
+```py
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABAE_URL'] = "mysql://root:root@localhost/movie" # 配置链接数据库的地址
+# 如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存， 如果不必要的可以禁用它。
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app) # 实例化
+```
+
+3、定义会员数据模型
+
+```py
+class User(db.Model):
+	__tablename__ = "user" 		# 数据表的名称
+	id = db.Column(db.Integer, primary_key = True) # id 是 整型，主键，自动递增
+	name = db.Column(db.String)
+	pwd  = db.Column(db.String)
+	email  = db.Column(db.String)
+	phone  = db.Column(db.String)
+	info  = db.Column(db.Text) 		# 个人简介
+	face  = db.Column(db.String)	# 用户头像
+	addtime  = db.Column(db.DateTime, index = True, default = datetime.utcnow) 	# 注册时间
+	uuid = db.Column(db.String) 	# 唯一标志符
+```
+|
+|---------------|----------------
+|`id`			| 编号(整型，主键，自动递增)
+|`name`			| 账号
+|`pwd`			| 密码
+|`email`		| 邮箱
+|`phone`		| 手机号
+|`info`			| 简介
+|`face`			| 头像
+|`addtime`		| 注册时间
+|`uuid`			| 唯一标志符
+|`comment`		| 评论外键关联
+|`userlogs`		| 会员登录日志外键关联
+|`moviecols`	| 电影收藏外键关联
+
+定义会员登录日志数据模型
+
+|
+|---------------|----------------
+|`id`			| 编号(整型，主键，自动递增)
+|`user_id`		| 所属会员编号
+|`ip`			| 最近登录`ip`
+|`addtime`		| 最近登录时间
