@@ -294,3 +294,303 @@ class User(db.Model):
 |`addtime`		| 创建时间
 |`admins`		| 管理员外键关联
 
+
+### 前端布局搭建
+
+1、静态文件引入： `{{url_for('static', filename='文件路径')}}`
+2、定义路由： `{{url_for('模块名.视图名', 变量=参数)}}`
+2、定义数据块： `{% block 数据块名称 %}……{% endblock %}`
+
+#### 会员登录页面搭建
+
+登录
+
+```py
+@home.route("/login")
+def login():
+	return render_template("home/login.html")
+```
+
+退出
+
+```py
+@home.route("/logout/")
+def logout():
+	return redirect(url_for('home.login'))
+```
+
+#### 会员中心页面搭建
+
+
+> 会员中心
+
+`@home.route("/user/")`
+
+> 修改密码
+
+`@home.route("/pwd/")`
+
+> 评论记录
+
+`@home.route("/comments/")`
+
+> 登录日志
+
+`@home.route("/loginlog/")`
+
+> 收藏电影
+
+`@home.route("/moviecol/")`
+
+#### 电影列表页面搭建
+
+
+> 列表
+
+```py
+@home.route("/")
+def index():
+	return render_template("home/index.html")
+```
+
+> 动画
+
+```py
+@home.route("/animation/")
+def animation():
+	return redirect(url_for('home/animation.html'))
+```
+
+#### 电影詳情页面搭建
+
+> 電影播放
+
+```py
+@home.route("/play")
+def play():
+	return render_template("home/play.html")
+```
+
+
+### 管理员登录页面搭建
+
+> 登录
+
+```py
+@admin.route("/login")
+def login():
+	return render_template("admin/login.html")
+```
+
+> 退出
+
+```py
+@admin.route("/logout")
+def logout():
+	return render_template("admin.logout")
+```
+
+#### 后台布局搭建
+
+> admin.html
+
+```jinjia2
+{% block css %} …… {% end %}
+{% include "grid.html" %}
+{% block content %} …… {% end %}
+{% block js %} …… {% end %}
+```
+
+> admin.html
+
+```jinjia2
+{% extends "admin/admin.html" %}
+{% block css %} …… {% end %}
+{% include "grid.html" %}
+{% block content %} …… {% end %}
+{% block js %} …… {% end %}
+```
+
+#### 控制面板
+
+> 系统管理
+
+```py
+@admin.route("/")
+def index():
+	return render_template("admin/index.html")
+```
+
+#### 标签管理页面的搭建
+
+> 编辑标签
+
+```py
+@admin.route("/tag/add/")
+def tag_add():
+	return render_template("admin/tag_add.html")
+```
+
+> 编辑列表
+
+```py
+@admin.route("/tag/list/")
+def tag_lsit():
+	return render_template("admin/tag_list.html")
+```
+
+
+#### 电影管理页面搭建
+
+> 编辑电影
+
+```py
+@admin.route("/movie/add/")
+def movie_add():
+	return render_template("admin/movie_add.html")
+```
+
+> 电影列表
+
+```py
+@admin.route("/movie/list/")
+def movie_lsit():
+	return render_template("admin/movie_list.html")
+```
+
+#### 电影預告页面搭建
+
+> 编辑电影預告
+
+```py
+@admin.route("/movie/add/")
+def movie_add():
+	return render_template("admin/movie_add.html")
+```
+
+> 电影預告列表
+
+```py
+@admin.route("/movie/list/")
+def movie_lsit():
+	return render_template("admin/movie_list.html")
+```
+
+#### 会员页面搭建
+
+> 会员列表
+
+```py
+@admin.route("/user/list/")
+def user_add():
+	return render_template("admin/user_add.html")
+```
+
+> 查看会员
+
+```py
+@admin.route("/user/view/")
+def user_lsit():
+	return render_template("admin/user_list.html")
+```
+
+#### 评论管理页面搭建
+
+> 评论列表
+
+```py
+@admin.route("/comment/list/")
+def comment_list():
+	return render_template("admin/comment_list.html")
+```
+
+#### 电影收藏页面搭建
+
+> 电影收藏
+
+```py
+@admin.route("/moviecol/list/")
+def moviecol_list():
+	return render_template("admin/moviecol_list.html")
+```
+
+#### 操作日志页面搭建
+
+> 操作日志
+
+```py
+@admin.route("/onlog/list/")
+def onlog_list():
+	return render_template("admin/onlog_list.html")
+```
+
+> 管理员登录日志
+
+```py
+@admin.route("/adminloginlog/list/")
+def adminloginlog_list():
+	return render_template("admin/adminloginlog_list.html")
+```
+
+> 会员登录日志
+
+```py
+@admin.route("/userloginlog/list/")
+def userloginlog_list():
+	return render_template("admin/userloginlog_list.html")
+```
+
+#### 角色管理页面搭建
+
+> 添加角色
+
+```py
+@admin.route("/role/add/")
+def role_add():
+	return render_template("admin/role_add.html")
+```
+
+> 角色列表
+
+```py
+@admin.route("/role/list/")
+def role_list():
+	return render_template("admin/role_list.html")
+```
+
+#### 权限管理页面搭建
+
+> 添加权限
+
+```py
+@admin.route("/auth/add/")
+def auth_add():
+	return render_template("admin/auth_add.html")
+```
+
+> 权限列表
+
+```py
+@admin.route("/auth/list/")
+def auth_list():
+	return render_template("admin/auth_list.html")
+```
+
+
+#### 管理员管理页面搭建
+
+> 添加管理员
+
+```py
+@admin.route("/admin/add/")
+def admin_add():
+	return render_template("admin/admin_add.html")
+```
+
+> 管理员列表
+
+```py
+@admin.route("/admin/list/")
+def admin_list():
+	return render_template("admin/admin_list.html")
+```

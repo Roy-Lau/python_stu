@@ -132,7 +132,8 @@ class Role(db.Model):
 	id = db.Column(db.Integer, primary_key=True) 	# 编号
 	name = db.Column(db.String(100), unique=True) 	# 名称
 	auths = db.Column(db.String(600)) 				# 权限
-	addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow) # 创建时间
+	addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow) # 创建时间按
 
 	def __repr__(self):
 		return "<Role %r>" % self.name
+
