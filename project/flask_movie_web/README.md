@@ -594,3 +594,24 @@ def admin_add():
 def admin_list():
 	return render_template("admin/admin_list.html")
 ```
+
+### 管理员登陆
+
+
+1. app/__init__.py中创建db对象
+
+2. app/models.py 中导入db对象
+
+3. app/admin/forms.py中定义表单验证
+
+4. app/templates/admin/login.html 中使用表单字段，信息验证，消息闪现
+
+5. app/admin/views.py 中处理登陆请求，保存会话
+
+6. app/admin/views.py 定义登陆装饰器，访问控制
+
+- 模型：Admin
+- 表单：LoginForm
+- 请求方法：GET，POST
+- 访问控制：无
+
