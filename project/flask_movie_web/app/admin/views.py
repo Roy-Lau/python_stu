@@ -17,10 +17,12 @@ def index():
 	# return "<center><h1>this is admin page</h1><a href='/'>to home</a></center>"
 
 # 登录
-@admin.route("/login/")
+@admin.route("/login/", methods=["GET","POST"])
 def login():
-    from = LoginForm()
-	return render_template("admin/login.html", from=from)
+	form = LoginForm()
+	if form.validate_on_submit(): # 提交时需要进行表单验证
+		data = form.data
+	return render_template("admin/login.html", form=form )
 
 
 # 退出

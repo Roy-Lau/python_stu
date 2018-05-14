@@ -7,19 +7,16 @@
 # @DateTime: 2018-05-11 10:27:00
 # ==============================
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+import pymysql
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABAE_URL'] = "mysql://root@toor139.199.99.154:3306/flask_movie"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:toor@139.199.99.154:3306/flask_movie"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-
-
-app = Flask(__name__)
+app.config["SECRET_KEY"] = "1ce3ada741844f90ab3e2a3a24221d11"
 app.debug = True
-
 db = SQLAlchemy(app)
 
 

@@ -165,7 +165,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABAE_URL'] = "mysql://root:root@localhost/movie" # 配置链接数据库的地址
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@localhost/movie" # 配置链接数据库的地址
 # 如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存， 如果不必要的可以禁用它。
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app) # 实例化
@@ -598,20 +598,20 @@ def admin_list():
 ### 管理员登陆
 
 
-1. app/__init__.py中创建db对象
+1. `app/__init__.py` 中创建db对象
 
-2. app/models.py 中导入db对象
+2. `app/models.py` 中导入db对象
 
-3. app/admin/forms.py中定义表单验证
+3. `app/admin/forms.py` 中定义表单验证
 
-4. app/templates/admin/login.html 中使用表单字段，信息验证，消息闪现
+4. `app/templates/admin/login.html` 中使用表单字段，信息验证，消息闪现
 
-5. app/admin/views.py 中处理登陆请求，保存会话
+5. `app/admin/views.py` 中处理登陆请求，保存会话
 
-6. app/admin/views.py 定义登陆装饰器，访问控制
+6. `app/admin/views.py` 定义登陆装饰器，访问控制
 
-- 模型：Admin
-- 表单：LoginForm
-- 请求方法：GET，POST
+- 模型：`Admin`
+- 表单：`LoginForm`
+- 请求方法：`GET，POST`
 - 访问控制：无
 
