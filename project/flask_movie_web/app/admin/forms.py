@@ -48,9 +48,6 @@ class LoginForm(FlaskForm):
     # 自定义验证-- 账户
     def validate_account(self, field):
         account = field.data
-        print("account =================",account)
-        print("Admin =================",Admin.query)
         admin = Admin.query.filter_by(name=account).count()
-        print("=================",admin)
         if admin == 0:
             raise ValidationError("账号不存在！")

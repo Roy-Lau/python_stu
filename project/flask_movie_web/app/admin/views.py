@@ -8,8 +8,10 @@
 # ==============================
 
 from . import admin
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash, session
 from app.admin.forms import LoginForm
+from app.models import Admin
+
 
 @admin.route("/")
 def index():
@@ -22,6 +24,13 @@ def login():
 	form = LoginForm()
 	if form.validate_on_submit(): # 提交时需要进行表单验证
 		data = form.data
+		admin = Admin.query.filter_by(name=data["account"]).first()
+		if not admin.check_pwd(data["pwd"]):
+			print("\n ============",admin.check_pwd(data["pwd"]))
+			flash("密码错误！")
+			return redirect(url_for("admin.login"))
+		session["admin"] = data["account"]
+		return redirect(request.args.get("next") or url_for("admin.index"))
 	return render_template("admin/login.html", form=form )
 
 

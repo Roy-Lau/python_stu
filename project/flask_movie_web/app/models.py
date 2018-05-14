@@ -10,7 +10,6 @@
 from datetime import datetime
 from app import db
 
-db.create_all()
 
 # 会员（用户）
 class User(db.Model):
@@ -150,6 +149,7 @@ class Admin(db.Model):
 
     def check_pwd(self, pwd):
         from werkzeug.security import check_password_hash
+        print("\n pwd: -----------",self.pwd, pwd, check_password_hash(self.pwd, pwd))
         return check_password_hash(self.pwd, pwd)
 
 
