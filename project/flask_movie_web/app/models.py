@@ -72,7 +72,7 @@ class Movie(db.Model):
 	moviecols = db.relationship('Moviecol', backref='movie') 	# 收藏外键关系
 
 	def __repr__(self):
-		return "Movie %r" % self.title
+		return "<Movie %r>" % self.title
 
 # 上映预告
 class Preview(db.Model):
@@ -83,7 +83,7 @@ class Preview(db.Model):
 	addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow) # 添加时间
 
 	def __repr__(self):
-		return "Preview %r" % self.title
+		return "<Preview %r>" % self.title
 
 # 评论
 class Comment(db.Model):
@@ -149,7 +149,6 @@ class Admin(db.Model):
 
     def check_pwd(self, pwd):
         from werkzeug.security import check_password_hash
-        print("\n pwd: -----------",self.pwd, pwd, check_password_hash(self.pwd, pwd))
         return check_password_hash(self.pwd, pwd)
 
 
@@ -191,7 +190,7 @@ if __name__ == "__main__":
 
     admin = Admin(
         name="imoocmovie",
-        pwd=generate_password_hash("imoocmovie"),
+        pwd=generate_password_hash("123456"),
         is_super=0,
         role_id=1
     )

@@ -435,7 +435,7 @@ def tag_add():
 
 ```py
 @admin.route("/tag/list/")
-def tag_lsit():
+def tag_list():
 	return render_template("admin/tag_list.html")
 ```
 
@@ -454,7 +454,7 @@ def movie_add():
 
 ```py
 @admin.route("/movie/list/")
-def movie_lsit():
+def movie_list():
 	return render_template("admin/movie_list.html")
 ```
 
@@ -472,7 +472,7 @@ def movie_add():
 
 ```py
 @admin.route("/movie/list/")
-def movie_lsit():
+def movie_list():
 	return render_template("admin/movie_list.html")
 ```
 
@@ -490,7 +490,7 @@ def user_add():
 
 ```py
 @admin.route("/user/view/")
-def user_lsit():
+def user_list():
 	return render_template("admin/user_list.html")
 ```
 
@@ -519,9 +519,9 @@ def moviecol_list():
 > 操作日志
 
 ```py
-@admin.route("/onlog/list/")
-def onlog_list():
-	return render_template("admin/onlog_list.html")
+@admin.route("/oplog/list/")
+def oplog_list():
+	return render_template("admin/oplog_list.html")
 ```
 
 > 管理员登录日志
@@ -614,4 +614,11 @@ def admin_list():
 - 表单：`LoginForm`
 - 请求方法：`GET，POST`
 - 访问控制：无
+
+__标签管理__
+
+- 模型： Tag
+- 表单： TagForm
+- 请求方法： GET、 POST
+- 访问控制： @admin_login_req
 

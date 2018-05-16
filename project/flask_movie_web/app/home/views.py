@@ -53,10 +53,11 @@ def moviecol():
 	return redirect(url_for('home/moviecol.html'))
 
 
-# 首页@home.route("/")
+# 首页
+@home.route("/")
 def index():
-	return render_template("home/index.html")
-	# return "<center><h1 style='color:blue;'>this is home page</h1><a href='/admin'>go admin</a></center>"
+	# return render_template("home/index.html")
+	return "<center><h1 style='color:blue;'>this is home page</h1><a href='/admin'>go admin</a></center>"
 
 
 # 动画
