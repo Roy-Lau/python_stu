@@ -89,19 +89,37 @@ def tag_list(page=None):
 	page_data = Tag.query.order_by(
 			Tag.addtime.desc()
 		).paginate(page=page, per_page=10)
-	return render_template("admin/tag_list.html",page_data=page_data)
+	return render_template("admin/tag_list.html", page_data=page_data)
 
 # 编辑标签
-@admin.route("/tag/edit/<int:id>", methods=["GET"])
+@admin.route("/tag/edit/<int:id>", methods=["GET","POST"])
 @admin_login_req
-def tag_edit():
-	return render_template("admin/tag_edit.html")
+def tag_edit(id=None):
+	form = TagForm()
+	tag = Tag.query.get_or_404(id)
+	if form.validate_on_submit():
+		data = form.data
+		tag_count = Tag.query.filter_by(name=data["name"]).count()
+		if tag.name != data["name"] and tag_count == 1:
+			flash("名称已存在！", "err")
+			return redirect(url_for("admin.tag_edit",id=id))
+		tag = Tag(name=data["name"])
+		tag.name = data["name"]
+		db.session.add(tag)
+		db.session.commit()
+		flash("编辑标签成功！", "ok")
+		redirect(url_for("admin.tag_edit",id=id))
+	return render_template("admin/tag_edit.html", form=form, tag=tag)
 
 # 删除标签
 @admin.route("/tag/del/<int:id>", methods=["GET"])
 @admin_login_req
-def tag_del():
-	return render_template("admin/tag_del.html")
+def tag_del(id=None):
+	tag = Tag.query.filter_by(id=id).first_or_404()
+	db.session.delete(tag)
+	db.session.commit()
+	flash("删除标签成功！","ok")
+	return redirect(url_for('admin.tag_list', page=1))
 
 # 编辑電影
 @admin.route("/movie/add/")
