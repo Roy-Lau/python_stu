@@ -629,3 +629,10 @@ __电影管理__
 - 请求方法： GET、 POST
 - 访问控制： @admin_login_req
 
+__预告管理__
+
+- 模型： Preview
+- 表单： PreviewForm
+- 请求方法： GET、 POST
+- 访问控制： @admin_login_req
+
