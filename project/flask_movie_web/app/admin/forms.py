@@ -54,7 +54,6 @@ class LoginForm(FlaskForm):
         if admin == 0:
             raise ValidationError("账号不存在！")
 
-
 class TagForm(FlaskForm):
     """标签表单类"""
     name = StringField(
@@ -183,6 +182,34 @@ class MovieForm(FlaskForm):
             "id":"input_release_time",
             "placeholder":"请输入上映时间！"
         }
+    )
+    submit=SubmitField(
+        "编辑",
+        render_kw={
+            "class": "btn btn-primary btn-block btn-flat"
+        }
+    )
+
+class PreviewForm(FlaskForm):
+    """电影预告表单"""
+    title = StringField(
+        label="预告标题",
+        validators=[
+            DataRequired("请输入预告标题！")
+        ],
+        description="预告标题",
+        render_kw={
+            "class": "form-control",
+            "id":"input_title",
+            "placeholder":"请输入预告标题！"
+        }
+    )
+    logo = FileField(
+        label="预告封面",
+        validators=[
+            DataRequired("请上传预告封面！")
+        ],
+        description="预告封面"
     )
     submit=SubmitField(
         "编辑",
