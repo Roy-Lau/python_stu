@@ -622,3 +622,10 @@ __标签管理__
 - 请求方法： GET、 POST
 - 访问控制： @admin_login_req
 
+__电影管理__
+
+- 模型： Movie
+- 表单： MovieForm
+- 请求方法： GET、 POST
+- 访问控制： @admin_login_req
+
