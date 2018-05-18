@@ -1,5 +1,10 @@
 -- 设置表可以写入中文
 alter table 数据表名 CONVERT TO CHARACTER SET utf8;
+-- 修改字段名称，类型
+ALTER TABLE 表名 CHANGE 旧字段名 新字段名 新数据类型;
+ALTER TABLE comment CHANGE comment content mediumtext;
+-- 删除表内的所有数据
+delete from comment;
 /*会员*/
 insert into user(name,pwd,email,phone,info,face,uuid,addtime) values('鼠','1231','1231@123.com','13888888881','鼠','1f401.png','d32a72bdac524478b7e4f6dfc8394fc0',now());
 insert into user(name,pwd,email,phone,info,face,uuid,addtime) values('牛','1232','1232@123.com','13888888882','牛','1f402.png','d32a72bdac524478b7e4f6dfc8394fc1',now());
@@ -15,7 +20,7 @@ insert into user(name,pwd,email,phone,info,face,uuid,addtime) values('狗','1241
 insert into user(name,pwd,email,phone,info,face,uuid,addtime) values('猪','1242','1242@123.com','13888888893','猪','1f416.png','d32a72bdac524478b7e4f6dfc8394fd1',now());
 
 
-ALTER TABLE user auto_increment=1;
+ALTER TABLE user auto_increment=1; -- 自动递增
 /*评论*/
 insert into comment(movie_id,user_id,content,addtime) values(7,1,"好看",now());
 insert into comment(movie_id,user_id,content,addtime) values(7,2,"不错",now());
@@ -26,7 +31,7 @@ insert into comment(movie_id,user_id,content,addtime) values(8,6,"无聊",now())
 insert into comment(movie_id,user_id,content,addtime) values(8,7,"乏味",now());
 insert into comment(movie_id,user_id,content,addtime) values(8,8,"无感",now());
 
-ALTER TABLE comment auto_increment=1;
+ALTER TABLE comment auto_increment=1; -- 自动递增
 
 /*收藏*/
 insert into moviecol(movie_id,user_id,addtime) values(7,1,now());
@@ -38,7 +43,7 @@ insert into moviecol(movie_id,user_id,addtime) values(8,6,now());
 insert into moviecol(movie_id,user_id,addtime) values(8,7,now());
 insert into moviecol(movie_id,user_id,addtime) values(8,8,now());
 
-ALTER TABLE moviecol auto_increment=1;
+ALTER TABLE moviecol auto_increment=1; -- 自动递增
 
 /*会员登录日志*/
 insert into userlog(user_id,ip,addtime) values(1,"192.168.4.1",now());

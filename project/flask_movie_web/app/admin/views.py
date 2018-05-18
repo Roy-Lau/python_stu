@@ -10,8 +10,8 @@
 
 from . import admin
 from flask import render_template, redirect, url_for, flash, session, request
-from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm
-from app.models import Admin, Tag, Movie, Preview, User
+from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm, PwdForm
+from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol
 from functools import wraps
 from app import db, app
 from werkzeug.utils import secure_filename
@@ -66,10 +66,22 @@ def logout():
 	return redirect(url_for('admin.login'))
 
 # 修改密码
-@admin.route("/pwd/")
+@admin.route("/pwd/", methods=["GET","POST"])
 @admin_login_req
 def pwd():
-	return redirect('admin/pwd.html')
+	form = PwdForm()
+	if form.validate_on_submit():
+		data = form.data
+		admin = Admin.query.filter_by(
+			name=session["admin"]
+		).first()
+		from werkzeug.security import generate_password_hash
+		admin.pwd = generate_password_hash(data["new_pwd"])
+		db.session.add(admin)
+		db.session.commit()
+		flash("修改密码成功！","ok")
+		return redirect(url_for("admin.logout"))
+	return render_template('admin/pwd.html', form=form)
 
 # 新增标签
 @admin.route("/tag/add/", methods=["GET","POST"])
@@ -363,16 +375,60 @@ def user_del(id=None):
 	return redirect(url_for("admin.user_list", page=1))
 
 # 评论列表
-@admin.route("/comment/list/")
+@admin.route("/comment/list/<int:page>", methods=["GET"])
 @admin_login_req
-def comment_list():
-	return render_template("admin/comment_list.html")
+def comment_list(page=None):
+	if page is None:
+		page = 1
+	page_data = Comment.query.join(
+		Movie
+	).join(
+		User
+	).filter(
+		Movie.id == Comment.movie_id,
+		User.id == Comment.user_id
+	).order_by(
+		Comment.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/comment_list.html", page_data=page_data)
+
+# 删除评论
+@admin.route("/comment/del/<int:id>", methods=["GET"])
+@admin_login_req
+def comment_del(id=None):
+	comment = Comment.query.get_or_404(int(id))
+	db.session.delete(comment)
+	db.session.commit()
+	flash("删除评论成功！","ok")
+	return redirect(url_for("admin.comment_list", page=1))
 
 # 电影收藏
-@admin.route("/moviecol/list/")
+@admin.route("/moviecol/list/<int:page>", methods=["GET"])
 @admin_login_req
-def moviecol_list():
-	return render_template("admin/moviecol_list.html")
+def moviecol_list(page=None):
+	if page is None:
+		page = 1
+	page_data = Moviecol.query.join(
+		Movie
+	).join(
+		User
+	).filter(
+		Movie.id == Moviecol.movie_id,
+		User.id == Moviecol.user_id
+	).order_by(
+		Moviecol.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/moviecol_list.html", page_data=page_data)
+
+# 删除收藏
+@admin.route("/moviecol/del/<int:id>", methods=["GET"])
+@admin_login_req
+def moviecol_del(id=None):
+	moviecol = Moviecol.query.get_or_404(int(id))
+	db.session.delete(moviecol)
+	db.session.commit()
+	flash("删除收藏成功！","ok")
+	return redirect(url_for("admin.moviecol_list", page=1))
 
 # 操作日志
 @admin.route("/oplog/list/")

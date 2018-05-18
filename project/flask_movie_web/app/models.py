@@ -89,7 +89,7 @@ class Preview(db.Model):
 class Comment(db.Model):
 	__tablename__ = "comment"
 	id = db.Column(db.Integer, primary_key=True) 	# 编号
-	comment = db.Column(db.Text) 					# 内容
+	content = db.Column(db.Text) 					# 内容
 	movie_id = db.Column(db.Integer, db.ForeignKey('movie.id')) # 所属电影
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 	# 所属用户
 	addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow) # 添加时间

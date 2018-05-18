@@ -642,3 +642,24 @@ __会员管理__
 - 表单： 无
 - 请求方法： GET、 POST
 - 访问控制： @admin_login_req
+
+__评论管理__
+
+- 模型： Comment
+- 表单： 无
+- 请求方法： GET
+- 访问控制： @admin_login_req
+
+__收藏管理__
+
+- 模型： Moviecol
+- 表单： 无
+- 请求方法： GET
+- 访问控制： @admin_login_req
+
+__修改密码__
+
+- 模型： Admin
+- 表单： PwdFrom
+- 请求方法： GET、POST
+- 访问控制： @admin_login_req
