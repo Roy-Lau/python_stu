@@ -11,7 +11,7 @@
 from . import admin
 from flask import render_template, redirect, url_for, flash, session, request
 from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm
-from app.models import Admin, Tag, Movie, Preview
+from app.models import Admin, Tag, Movie, Preview, User
 from functools import wraps
 from app import db, app
 from werkzeug.utils import secure_filename
@@ -335,16 +335,32 @@ def preview_del(id=None):
 	return redirect(url_for('admin.preview_list', page=1))
 
 # 会员列表
-@admin.route("/user/list/")
+@admin.route("/user/list/<int:page>", methods=["GET"])
 @admin_login_req
-def user_add():
-	return render_template("admin/user_add.html")
+def user_list(page=None):
+	if page is None:
+		page = 1
+	page_data = User.query.order_by(
+		User.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/user_list.html", page_data=page_data)
 
 # 查看会员
-@admin.route("/user/view/")
+@admin.route("/user/view/<int:id>", methods=["GET"])
 @admin_login_req
-def user_list():
-	return render_template("admin/user_list.html")
+def user_view(id=None):
+	user = User.query.get_or_404(int(id))
+	return render_template("admin/user_view.html", user=user)
+
+# 删除会员
+@admin.route("/user/del/<int:id>", methods=["GET"])
+@admin_login_req
+def user_del(id=None):
+	user = User.query.get_or_404(int(id))
+	db.session.delete(user)
+	db.session.commit()
+	flash("删除会员成功！","ok")
+	return redirect(url_for("admin.user_list", page=1))
 
 # 评论列表
 @admin.route("/comment/list/")

@@ -636,3 +636,9 @@ __预告管理__
 - 请求方法： GET、 POST
 - 访问控制： @admin_login_req
 
+__会员管理__
+
+- 模型： User
+- 表单： 无
+- 请求方法： GET、 POST
+- 访问控制： @admin_login_req
