@@ -10,8 +10,8 @@
 
 from . import admin
 from flask import render_template, redirect, url_for, flash, session, request
-from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm, PwdForm
-from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol
+from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm, PwdForm, AuthFrom
+from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol,  Oplog, Adminlog, Userlog, Auth, Role
 from functools import wraps
 from app import db, app
 from werkzeug.utils import secure_filename
@@ -431,22 +431,49 @@ def moviecol_del(id=None):
 	return redirect(url_for("admin.moviecol_list", page=1))
 
 # 操作日志
-@admin.route("/oplog/list/")
+@admin.route("/oplog/list/<int:page>", methods=["GET"])
 @admin_login_req
-def oplog_list():
-	return render_template("admin/oplog_list.html")
+def oplog_list(page=None):
+	if page is None:
+		page = 1
+	page_data = Oplog.query.join(
+		Admin
+	).filter(
+		Admin.id == Oplog.admin_id
+	).order_by(
+		Oplog.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/oplog_list.html", page_data=page_data)
 
 # 管理员登录日志
-@admin.route("/adminloginlog/list/")
+@admin.route("/adminloginlog/list/<int:page>", methods=["GET"])
 @admin_login_req
-def adminloginlog_list():
-	return render_template("admin/adminloginlog_list.html")
+def adminloginlog_list(page=None):
+	if page is None:
+		page = 1
+	page_data = Adminlog.query.join(
+		Admin
+	).filter(
+		Admin.id == Adminlog.admin_id
+	).order_by(
+		Adminlog.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/adminloginlog_list.html", page_data=page_data)
 
 # 会员登录日志
-@admin.route("/userloginlog/list/")
+@admin.route("/userloginlog/list/<int:page>", methods=["GET"])
 @admin_login_req
-def userloginlog_list():
-	return render_template("admin/userloginlog_list.html")
+def userloginlog_list(page=None):
+	if page is None:
+		page = 1
+	page_data = Userlog.query.join(
+		User
+	).filter(
+		User.id == Userlog.user_id
+	).order_by(
+		Userlog.addtime.desc()
+	).paginate(page=page, per_page=10)
+	return render_template("admin/userloginlog_list.html", page_data=page_data)
 
 # 添加角色
 @admin.route("/role/add/")

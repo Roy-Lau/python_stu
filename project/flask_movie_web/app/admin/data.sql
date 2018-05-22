@@ -56,4 +56,5 @@ insert into userlog(user_id,ip,addtime) values(7,"192.168.4.7",now());
 insert into userlog(user_id,ip,addtime) values(8,"192.168.4.8",now());
 insert into userlog(user_id,ip,addtime) values(9,"192.168.4.9",now());
 
+
 /*print(request.script_root);print(request.url_rule)*/
