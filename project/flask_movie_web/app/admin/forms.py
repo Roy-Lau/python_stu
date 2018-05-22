@@ -258,11 +258,11 @@ class PwdForm(FlaskForm):
         if not admin.check_pwd(pwd):
             raise ValidationError("原密码错误！")
 
-class AuthFrom(FlaskForm):
+class AuthForm(FlaskForm):
     """权限管理表单"""
     name = StringField(
         label="权限名称",
-        ValidationError=[
+        validators=[
             DataRequired("请输入权限名称！")
         ],
         description="权限名称",
@@ -278,7 +278,7 @@ class AuthFrom(FlaskForm):
         ],
         description="权限地址",
         render_kw={
-            "calss": "form-control",
+            "class": "form-control",
             "placeholder": "请输入权限地址！"
         }
     )
