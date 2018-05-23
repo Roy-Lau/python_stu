@@ -673,3 +673,10 @@ __权限管理__
 - 表单： AuthForm
 - 请求方法： GET、POST
 - 访问控制： @admin_login_req
+
+__角色管理__
+
+- 模型： Role
+- 表单： RoleForm
+- 请求方法： GET、POST
+- 访问控制： @admin_login_req
