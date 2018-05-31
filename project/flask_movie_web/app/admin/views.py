@@ -9,7 +9,7 @@
 # ==============================
 
 from . import admin
-from flask import render_template, redirect, url_for, flash, session, request
+from flask import render_template, redirect, url_for, flash, session, request, abort
 from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm, PwdForm, AuthForm, RoleForm, AdminForm
 from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol,  Oplog, Adminlog, Userlog, Auth, Role
 from functools import wraps
@@ -19,7 +19,7 @@ from datetime import datetime
 import os
 import uuid
 
-# 权限装饰器
+# 登录权限装饰器
 def admin_login_req(f):
 	@wraps(f)
 	def decorated_function(*args,**kwargs):
@@ -31,6 +31,35 @@ def admin_login_req(f):
 
 	return decorated_function
 
+# 定义权限控制装饰器
+def admin_auth(f):
+	@wraps(f)
+	def decorate_function(*args, **kwargs):
+
+		print('\t Admin.role_id: ',Admin)
+		print('\t Role.id: ',Role.id)
+		print(session["admin"])
+		admin = Admin.query.join(
+			Role
+		).filter(
+			Role.id == Admin.role_id,
+			Admin.id == session["admin"]
+		).first()
+		print('\t',admin)
+		print(admin.role)
+		print(admin.role.auths)
+		auths = admin.role.auths
+		auths = list(map(lambda v: int(v), auths.split(",")))
+		auth_list = Auth.query.all()
+		urls = [v.url for v in auth_list for val in auths if val == v.id]
+		rule = request.url_rule
+		if str(rule) not in urls:
+			abort(404)
+		return f(*args, **kwargs)
+
+	return decorate_function
+
+
 # 修改文件名称
 def change_filename(filename):
 	fileinfo = os.path.splitext(filename)
@@ -39,6 +68,7 @@ def change_filename(filename):
 
 @admin.route("/")
 @admin_login_req
+@admin_auth
 def index():
 	return render_template("admin/index.html")
 	# return "<center><h1>this is admin page</h1><a href='/'>to home</a></center>"
@@ -85,6 +115,7 @@ def pwd():
 # 新增标签
 @admin.route("/tag/add/", methods=["GET","POST"])
 @admin_login_req
+@admin_auth
 def tag_add():
 	form = TagForm()
 	if form.validate_on_submit():
@@ -103,6 +134,7 @@ def tag_add():
 # 标签列表
 @admin.route("/tag/list/<int:page>", methods=["GET"])
 @admin_login_req
+@admin_auth
 def tag_list(page=None):
 	if page is None:
 		page = 1
@@ -114,6 +146,7 @@ def tag_list(page=None):
 # 编辑标签
 @admin.route("/tag/edit/<int:id>", methods=["GET","POST"])
 @admin_login_req
+@admin_auth
 def tag_edit(id=None):
 	form = TagForm()
 	tag = Tag.query.get_or_404(id)
@@ -134,6 +167,7 @@ def tag_edit(id=None):
 # 删除标签
 @admin.route("/tag/del/<int:id>", methods=["GET"])
 @admin_login_req
+@admin_auth
 def tag_del(id=None):
 	tag = Tag.query.filter_by(id=id).first_or_404()
 	db.session.delete(tag)

@@ -75,11 +75,11 @@
 
 ```bash
 pip instasll virtualenv 		# 1. 安装
-virtualenv venv 						# 2. 创建虚拟化环境(执行成功后会出现一个venv的目录)
+virtualenv venv 				# 2. 创建虚拟化环境(执行成功后会出现一个venv的目录)
 source venv/bin/activate 		# 3. 激活虚拟化环境(mac os/liunx/ubuntu)
 venv\Scripts\activate 			# 3. 激活虚拟化环境(win cmd)
 …………
-deactivate 									# 4. 退出虚拟化环境
+deactivate 						# 4. 退出虚拟化环境
 ```
 
 2. flask 的安装
@@ -687,3 +687,20 @@ __管理员管理__
 - 表单： AdminForm
 - 请求方法： GET、POST
 - 访问控制： @admin_login_req
+
+### 访问权限管理
+
+```py
+# 定义权限装饰器
+def admin_auth(f):
+	@wraps(f)
+	def decorate_function(*args, **kwargs):
+		# 权限查询
+		abort(404)
+		return f(*args, **kwargs)
+
+	return decorate_function
+
+# 调用权限装饰器
+@admin_auth
+```
