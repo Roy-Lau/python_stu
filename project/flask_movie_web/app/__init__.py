@@ -7,7 +7,7 @@
 # @DateTime: 2018-05-11 10:27:00
 # ==============================
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 import os
@@ -29,4 +29,7 @@ app.register_blueprint(admin_blueprint, url_prefix="/admin")
 
 @app.errorhandler(404)
 def page_not_found(error):
+	# 每次出现 404 就把 session 删除，重新登录
+	# session.pop("admin", None)
+	# session.pop("admin_id", None)
 	return render_template("home/404.html"), 404

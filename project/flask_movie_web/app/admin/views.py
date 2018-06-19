@@ -11,7 +11,7 @@
 from . import admin
 from flask import render_template, redirect, url_for, flash, session, request, abort
 from app.admin.forms import LoginForm, TagForm, MovieForm, PreviewForm, PwdForm, AuthForm, RoleForm, AdminForm
-from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol,  Oplog, Adminlog, Userlog, Auth, Role
+from app.models import Admin, Tag, Movie, Preview, User, Comment, Moviecol, Oplog, Adminlog, Userlog, Auth, Role
 from functools import wraps
 from app import db, app
 from werkzeug.utils import secure_filename
@@ -25,6 +25,7 @@ def admin_login_req(f):
 	def decorated_function(*args,**kwargs):
 		# 如果`session`中没有`admin`，或者`session`的`admin`为`None`
 		if "admin" not in session:
+			flash("权限认证失败！","err")
 			# 跳转到登录页，并获取到 要跳转的地址
 			return redirect(url_for("admin.login", next=request.url))
 		return f(*args, **kwargs)
@@ -35,19 +36,14 @@ def admin_login_req(f):
 def admin_auth(f):
 	@wraps(f)
 	def decorate_function(*args, **kwargs):
-
-		print('\t Admin.role_id: ',Admin)
-		print('\t Role.id: ',Role.id)
-		print(session["admin"])
 		admin = Admin.query.join(
 			Role
 		).filter(
 			Role.id == Admin.role_id,
-			Admin.id == session["admin"]
+			Admin.id == session["admin_id"]
 		).first()
-		print('\t',admin)
-		print(admin.role)
-		print(admin.role.auths)
+		print('\t Admin------------ 不能是None ',admin)
+		# print(admin.auths)
 		auths = admin.role.auths
 		auths = list(map(lambda v: int(v), auths.split(",")))
 		auth_list = Auth.query.all()
@@ -66,9 +62,10 @@ def change_filename(filename):
 	filename = datetime.now().strftime("%Y%m%d%H%M%S")+"-"+str(uuid.uuid4().hex)+fileinfo[-1]
 	return filename
 
+# 主页
 @admin.route("/")
 @admin_login_req
-@admin_auth
+# @admin_auth
 def index():
 	return render_template("admin/index.html")
 	# return "<center><h1>this is admin page</h1><a href='/'>to home</a></center>"
@@ -84,6 +81,7 @@ def login():
 			flash("密码错误！","err")
 			return redirect(url_for("admin.login"))
 		session["admin"] = data["account"]
+		session["admin_id"] = admin.id
 		return redirect(request.args.get("next") or url_for("admin.index"))
 	return render_template("admin/login.html", form=form )
 
@@ -91,7 +89,8 @@ def login():
 @admin.route("/logout/")
 @admin_login_req
 def logout():
-	session.pop("admin",None)
+	session.pop("admin", None)
+	session.pop("admin_id", None)
 	return redirect(url_for('admin.login'))
 
 # 修改密码
@@ -132,7 +131,7 @@ def tag_add():
 	return render_template("admin/tag_add.html", form=form)
 
 # 标签列表
-@admin.route("/tag/list/<int:page>", methods=["GET"])
+@admin.route("/tag/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
 def tag_list(page=None):
@@ -144,7 +143,7 @@ def tag_list(page=None):
 	return render_template("admin/tag_list.html", page_data=page_data)
 
 # 编辑标签
-@admin.route("/tag/edit/<int:id>", methods=["GET","POST"])
+@admin.route("/tag/edit/<int:id>/", methods=["GET","POST"])
 @admin_login_req
 @admin_auth
 def tag_edit(id=None):
@@ -165,7 +164,7 @@ def tag_edit(id=None):
 	return render_template("admin/tag_edit.html", form=form, tag=tag)
 
 # 删除标签
-@admin.route("/tag/del/<int:id>", methods=["GET"])
+@admin.route("/tag/del/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
 def tag_del(id=None):
@@ -414,8 +413,7 @@ def comment_list(page=None):
 	if page is None:
 		page = 1
 	page_data = Comment.query.join(
-		Movie
-	).join(
+		Movie,
 		User
 	).filter(
 		Movie.id == Comment.movie_id,
@@ -442,8 +440,7 @@ def moviecol_list(page=None):
 	if page is None:
 		page = 1
 	page_data = Moviecol.query.join(
-		Movie
-	).join(
+		Movie,
 		User
 	).filter(
 		Movie.id == Moviecol.movie_id,
