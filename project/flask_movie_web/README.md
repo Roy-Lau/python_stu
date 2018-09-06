@@ -713,3 +713,24 @@ __会员注册__
 - 表单： RegistForm
 - 请求方法： GET、POST
 - 访问控制： 无
+
+__修改会员资料__
+
+- 模型： User
+- 表单： UserdetailForm
+- 请求方法： GET、POST
+- 访问控制： @user_login_req
+
+__修改密码__
+
+- 模型： User
+- 表单： PwdForm
+- 请求方法： GET、POST
+- 访问控制： @user_login_req
+
+__会员登录日志__
+
+- 模型： User
+- 表单： 无
+- 请求方法： GET
+- 访问控制： @user_login_req
