@@ -82,6 +82,12 @@ def login():
 			return redirect(url_for("admin.login"))
 		session["admin"] = data["account"]
 		session["admin_id"] = admin.id
+		adminlog = Adminlog(
+		    admin_id=admin.id,
+		    ip=request.remote_addr,
+		)
+		db.session.add(adminlog)
+		db.session.commit()
 		return redirect(request.args.get("next") or url_for("admin.index"))
 	return render_template("admin/login.html", form=form )
 
@@ -108,6 +114,14 @@ def pwd():
 		db.session.add(admin)
 		db.session.commit()
 		flash("修改密码成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="修改密码%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		return redirect(url_for("admin.logout"))
 	return render_template('admin/pwd.html', form=form)
 
@@ -127,6 +141,14 @@ def tag_add():
 		db.session.add(tag)
 		db.session.commit()
 		flash("添加标签成功！", "ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加标签%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		redirect(url_for('admin.tag_add'))
 	return render_template("admin/tag_add.html", form=form)
 
@@ -160,6 +182,14 @@ def tag_edit(id=None):
 		db.session.add(tag)
 		db.session.commit()
 		flash("编辑标签成功！", "ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="编辑标签%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		redirect(url_for("admin.tag_edit",id=id))
 	return render_template("admin/tag_edit.html", form=form, tag=tag)
 
@@ -172,6 +202,14 @@ def tag_del(id=None):
 	db.session.delete(tag)
 	db.session.commit()
 	flash("删除标签成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除标签%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for('admin.tag_list', page=1))
 
 # 新增電影
@@ -217,6 +255,14 @@ def movie_add():
 		db.session.add(movie)
 		db.session.commit()
 		flash("添加电影成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加电影%s" % data["title"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		return redirect(url_for('admin.movie_add'))
 	return render_template("admin/movie_add.html", form=form)
 
@@ -285,7 +331,15 @@ def movie_edit(id=None):
 		db.session.add(movie)
 		db.session.commit()
 		flash("修改电影成功！", "ok")
-		redirect(url_for("admin.movie_edit",id=id))
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="修改电影%s" % data["title"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
+		return redirect(url_for("admin.movie_edit",id=id))
 	return render_template("admin/movie_edit.html", form=form, movie=movie)
 
 # 删除电影
@@ -296,6 +350,14 @@ def movie_del(id=None):
 	db.session.delete(movie)
 	db.session.commit()
 	flash("删除电影成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除电影id：%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for('admin.movie_list', page=1))
 
 # 编辑電影預告
@@ -327,6 +389,14 @@ def preview_add():
 		db.session.add(preview)
 		db.session.commit()
 		flash("添加预告成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加预告%s" % data["title"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		return redirect(url_for('admin.preview_add'))
 	return render_template("admin/preview_add.html", form=form)
 
@@ -365,6 +435,14 @@ def preview_edit(id=None):
 		db.session.add(preview)
 		db.session.commit()
 		flash("修改预告成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="修改预告%s" % data["title"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		return redirect(url_for("admin.preview_edit", id=id))
 	return render_template("admin/preview_edit.html", form=form, preview=preview)
 
@@ -376,6 +454,14 @@ def preview_del(id=None):
 	db.session.delete(preview)
 	db.session.commit()
 	flash("删除预告成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除预告%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for('admin.preview_list', page=1))
 
 # 会员列表
@@ -404,6 +490,14 @@ def user_del(id=None):
 	db.session.delete(user)
 	db.session.commit()
 	flash("删除会员成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除预告%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for("admin.user_list", page=1))
 
 # 评论列表
@@ -431,6 +525,14 @@ def comment_del(id=None):
 	db.session.delete(comment)
 	db.session.commit()
 	flash("删除评论成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除评论%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for("admin.comment_list", page=1))
 
 # 电影收藏
@@ -458,6 +560,14 @@ def moviecol_del(id=None):
 	db.session.delete(moviecol)
 	db.session.commit()
 	flash("删除收藏成功！","ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除收藏%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for("admin.moviecol_list", page=1))
 
 # 操作日志
@@ -519,6 +629,14 @@ def role_add():
 		db.session.add(role)
 		db.session.commit()
 		flash("添加角色成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加角色%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 	return render_template("admin/role_add.html", form=form)
 
 # 角色列表
@@ -548,6 +666,14 @@ def role_edit(id=None):
 		db.session.add(role)
 		db.session.commit()
 		flash("修改角色成功！","ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="编辑角色%s" % id
+		)
+		db.session.add(oplog)
+		db.session.commit()
 	return render_template("admin/role_edit.html", form=form, role=role)
 
 # 删除角色
@@ -558,6 +684,14 @@ def role_del(id=None):
 	db.session.delete(role)
 	db.session.commit()
 	flash("删除角色成功", "ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="删除角色%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for("admin.role_list", page=1))
 
 # 添加权限
@@ -574,6 +708,14 @@ def auth_add():
 		db.session.add(auth)
 		db.session.commit()
 		flash("添加权限成功", "ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加权限%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 	return render_template("admin/auth_add.html", form=form)
 
 # 权限列表
@@ -600,6 +742,14 @@ def auth_edit(id=None):
 		db.session.add(auth)
 		db.session.commit()
 		flash("权限编辑成功", "ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="权限编辑%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 		redirect(url_for("admin.auth_edit", id=id))
 	return render_template("admin/auth_edit.html", form=form, auth=auth)
 
@@ -611,6 +761,14 @@ def auth_del(id=None):
 	db.session.delete(auth)
 	db.session.commit()
 	flash("删除权限成功", "ok")
+	# 写入操作日志
+	oplog = Oplog(
+	    admin_id=session["admin_id"],
+	    ip=request.remote_addr,
+	    reason="权限删除%s" % id
+	)
+	db.session.add(oplog)
+	db.session.commit()
 	return redirect(url_for("admin.auth_list", page=1))
 
 # 添加管理员
@@ -630,6 +788,14 @@ def admin_add():
 		db.session.add(admin)
 		db.session.commit()
 		flash("添加管理员成功", "ok")
+		# 写入操作日志
+		oplog = Oplog(
+		    admin_id=session["admin_id"],
+		    ip=request.remote_addr,
+		    reason="添加管理员%s" % data["name"]
+		)
+		db.session.add(oplog)
+		db.session.commit()
 	return render_template("admin/admin_add.html", form=form)
 
 # 管理员列表
