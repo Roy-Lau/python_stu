@@ -12,7 +12,7 @@
                 <p style="color:red;">{{ msg }}</p>
                 {% endfor %}
                 {% for msg in get_flashed_messages(category_filter=["ok"]) %}
-                <p style="color:green;">{{ msg }}</p>
+                <h3 style="color:green;">{{ msg }}</h3>
                 {% endfor %}
                 <form role="form" method="post">
                     <fieldset>

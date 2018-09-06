@@ -704,3 +704,12 @@ def admin_auth(f):
 # 调用权限装饰器
 @admin_auth
 ```
+
+### 会员模块
+
+__会员注册__
+
+- 模型： User
+- 表单： RegistForm
+- 请求方法： GET、POST
+- 访问控制： 无
