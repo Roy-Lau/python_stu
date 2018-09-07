@@ -16,7 +16,7 @@
 <div class="col-md-9">
     <div class="panel panel-warning">
         <div class="panel-heading">
-            <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;评论记录</h3>
+            <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;评论记录</h3>
         </div>
         <div class="panel-body">
             <ul class="commentList">
@@ -36,8 +36,9 @@
                         <div class="comment-main">
                             <header class="comment-header">
                                 <div class="comment-meta">
-                                    <a class="comment-author" href="user.html">{{ v.user.name }}</a>
-                                    评论于
+                                    <a class="comment-author" href="{{ url_for('home.user') }}">{{ v.user.name }}</a>
+                                    评论《
+                                    <a href="{{ url_for('home.play',id=v.movie.id,page=1) }}">{{ v.movie.title }}</a>》于
                                     <time title="{{ v.addtime }}" datetime="{{ v.addtime }}">
                                         {{ v.addtime }}
                                     </time>

@@ -240,3 +240,23 @@ class PwdForm(FlaskForm):
         ).first()
         if not user.check_pwd(pwd):
             raise ValidationError("原密码错误！")
+
+class CommentForm(FlaskForm):
+	"""会员评论表单"""
+	content = TextAreaField(
+		label="评论内容",
+		validators=[
+			DataRequired("请输入评论内容！")
+		],
+		description="内容",
+		render_kw={
+			"id": "input-content"
+		}
+	)
+	submit = SubmitField(
+		"提交评论",
+		render_kw={
+			"class": "btn btn-success",
+			"id":"btn-sub"
+		}
+	)

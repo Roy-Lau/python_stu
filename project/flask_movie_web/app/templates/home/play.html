@@ -7,6 +7,7 @@
 <script type="text/javascript" src="{{ url_for('static',filename='ueditor/ueditor.config.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='ueditor/ueditor.all.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='ueditor/third-party/SyntaxHighlighter/shCore.js') }}"></script>
 <script>
     SyntaxHighlighter.all();
 
@@ -76,7 +77,13 @@
                         <td style="color:#ccc;font-weight:bold;font-style:italic;">
                             <span class="glyphicon glyphicon-calendar"></span>&nbsp;上映时间
                         </td>
-                        <td>{{ movie.release_time }}</td>
+                        <td>{{ movie.release }}</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                            <span class="glyphicon glyphicon-calendar"></span>&nbsp;上传时间
+                        </td>
+                        <td>{{ movie.addtime }}</td>
                     </tr>
                     <tr>
                         <td style="color:#ccc;font-weight:bold;font-style:italic;">
@@ -143,11 +150,9 @@
                     {{ form.csrf_token }}
                     {{ form.submit }}
                     &nbsp;
-                    <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>
-                </form>
-                <div class="col-md-12">
+                    <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏电影</a>&nbsp;&nbsp;
                     <font style="color:green" id="show_col_msg"></font>
-                </div>
+                </form>
                 <div class="clearfix"></div>
                 {% endif %}
                 <ul class="commentList">

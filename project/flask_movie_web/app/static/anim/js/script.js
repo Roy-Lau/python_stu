@@ -287,7 +287,7 @@ $(function(){
 			var prev; var next; var hidden;
 			var curr=$("#imgCard"+index_2);//当前正中显示
 
-			if(index_2==0){								//当前正中显示的是第0张时 prev为最后一张
+			if(index_2==0){								 //当前正中显示的是第0张时 prev为最后一张
 				prev=$("#imgCard"+(len-1));
 			}else{												//否则  序列号-1
 				prev=$("#imgCard"+(index_2-1));
