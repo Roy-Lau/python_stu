@@ -135,6 +135,12 @@ class LoginForm(FlaskForm):
 	        "class": "btn btn-lg btn-primary btn-block"
 	    }
 	)
+    # 自定义验证-- 账户
+	def validate_name(self, field):
+	    name = field.data
+	    user = User.query.filter_by(name=name).count()
+	    if user == 0:
+	        raise ValidationError("账号不存在！")
 
 class UserdetailForm(FlaskForm):
 	"""修改会员资料"""

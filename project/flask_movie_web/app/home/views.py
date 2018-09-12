@@ -25,7 +25,7 @@ def user_login_req(f):
 	def decorated_function(*args,**kwargs):
 		# 如果`session`中没有`user`，或者`session`的`user`为`None`
 		if "user" not in session:
-			flash("权限认证失败！","err")
+			flash("权限认证失败，请登录！","err")
 			# 跳转到登录页，并获取到 要跳转的地址
 			return redirect(url_for("home.login", next=request.url))
 		return f(*args, **kwargs)
@@ -58,6 +58,7 @@ def login():
 def logout():
 	session.pop("user",None)
 	session.pop("user_id",None)
+	flash("已退出！","ok")
 	return redirect(url_for('home.login'))
 
 # 会员注册
@@ -227,7 +228,7 @@ def moviecol(page=None):
 
 # 首页
 @home.route("/<int:page>/",methods=["GET"])
-def index(page=None):
+def index(page=1):
 	tags = Tag.query.all()
 	page_data = Movie.query
 	#标题id

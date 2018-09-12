@@ -771,3 +771,13 @@ __电影收藏__
 - 表单： 无
 - 请求方法： GET,POST
 - 访问控制： 需登录
+
+### Flask结合Redis消息队列实现电影弹幕
+
+1. 模型： Movie
+2. 表单： 无
+3. 请求方法： GET、POST
+4. 访问控制： 无
+5. 消息队列： [Redis](https://github.com/roy-lau/log/blob/master/DB/redis/Linux-Redis-install-and-run.md)
+6. Flask第三方扩展： Flask-Redis
+7. 弹幕播放器插件： dplayer.js(开源)
