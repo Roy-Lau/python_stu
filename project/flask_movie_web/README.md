@@ -781,3 +781,51 @@ __电影收藏__
 5. 消息队列： [Redis](https://github.com/roy-lau/log/blob/master/DB/redis/Linux-Redis-install-and-run.md)
 6. Flask第三方扩展： Flask-Redis
 7. 弹幕播放器插件： dplayer.js(开源)
+
+
+### 服务器需要的软件
+
+* centOS
+* nginx
+* python3.6
+* mysql
+* Redis
+
+lamp服务器搭建
+
+### 部署微电影网站
+
+1. 安装依赖包
+2. 关闭调试模式： app.debug=False
+3. 修改mysql数据库连接，导入数据库
+4. 开启多个端口后台运行
+5. 配置nginx反向代理
+
+```bash
+pip freeze >> req.rxt # 导出依赖包
+scp -r flask_movie_web root@ip:/home/python/ # 上传项目到服务器
+# 登录到服务器，进入项目目录
+cd /home/python/flask_movie_web
+pip3 install -r req.txt # 安装依赖
+mysql -uroot -p 密码  # 进入数据库
+create database flask_movie; # 创建一个新数据库
+use flask_movie;
+source /home/python/flask_movie_web/movie.sql; # 导入数据库
+show tables;
+select * from use;
+
+cp -r flask_movie_web /usr/local/nginx/html # 将项目放到nginx下
+# 服务器是4核的，所有启动了四个
+nohup python3 manage.py runserver -h 127.0.0.1 -p 5001 &
+nohup python3 manage.py runserver -h 127.0.0.1 -p 5002 &
+nohup python3 manage.py runserver -h 127.0.0.1 -p 5003 &
+nohup python3 manage.py runserver -h 127.0.0.1 -p 5004 &
+
+netstat -anptu | grep 500* # 查看是否运行了
+```
+
+### 流媒体访问限制
+
+1. 限制单个ip能发起的连接： `limit_conn addr 1`
+2. 限制视频速率： `limit_rate 1024k`
+3. 刷新nginx: `nginx -s reload`

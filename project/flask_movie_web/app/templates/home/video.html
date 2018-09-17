@@ -112,7 +112,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;电影评论</h3>
             </div>
-            <div class="panel-body" style="height:459px;overflow:scroll;">
+            <div class="panel-body">
                 {% if "user" not in session %}
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert">
@@ -159,15 +159,20 @@
                     {% for v in page_data.items %}
                     <li class="item cl">
                         <a>
-                            <i class="avatar size-L radius">
+                           <i class="avatar size-L radius">
+                                {% if v.user.face %}
                                 <img alt="50x50" src="{{ url_for('static',filename='uploads/users/'+v.user.face) }}" class="img-circle"
                                      style="border:1px solid #abcdef;width:50px;">
+                                {% else %}
+                                <img alt="50x50" data-src="holder.js/50x50" class="img-circle"
+                                     style="border:1px solid #abcdef;width:50px;">
+                                {% endif %}
                             </i>
                         </a>
                         <div class="comment-main">
                             <header class="comment-header">
                                 <div class="comment-meta">
-                                    <a class="comment-author" href="user.html">{{ v.user.name }}</a>
+                                    <a class="comment-author" href="{{ url_for('home.user') }}">{{ v.user.name }}</a>
                                     评论于
                                     <time title="{{ v.addtime }}" datetime="{{ v.addtime }}">
                                         {{ v.addtime }}

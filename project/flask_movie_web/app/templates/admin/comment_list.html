@@ -37,8 +37,12 @@
                     {% endfor %}
                     {% for v in page_data.items %}
                     <div class="box-comment">
-                        <img class="img-circle img-sm"
-                             src="{{ url_for('static',filename='uploads/users/'+v.user.face) }}" alt="User Image">
+                        {% if v.user.face %}
+                        <img alt="User Image" src="{{ url_for('static',filename='uploads/users/'+v.user.face) }}" class="img-circle img-sm">
+                        {% else %}
+                        <img alt="50x50" data-src="holder.js/50x50" class="img-circle img-sm">
+                        {% endif %}
+
                         <div class="comment-text">
                                     <span class="username">
                                         {{ v.user.name }}

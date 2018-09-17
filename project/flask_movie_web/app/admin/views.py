@@ -501,7 +501,7 @@ def user_del(id=None):
 	return redirect(url_for("admin.user_list", page=1))
 
 # 评论列表
-@admin.route("/comment/list/<int:page>", methods=["GET"])
+@admin.route("/comment/list/<int:page>/", methods=["GET"])
 @admin_login_req
 def comment_list(page=None):
 	if page is None:

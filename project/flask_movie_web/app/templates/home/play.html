@@ -172,7 +172,7 @@
                         <div class="comment-main">
                             <header class="comment-header">
                                 <div class="comment-meta">
-                                    <a class="comment-author" href="user.html">{{ v.user.name }}</a>
+                                    <a class="comment-author" href="{{ url_for('home.user') }}">{{ v.user.name }}</a>
                                     评论于
                                     <time title="{{ v.addtime }}" datetime="{{ v.addtime }}">
                                         {{ v.addtime }}
