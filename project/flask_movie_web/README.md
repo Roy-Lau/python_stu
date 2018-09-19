@@ -786,7 +786,7 @@ __电影收藏__
 ### 服务器需要的软件
 
 * centOS
-* nginx
+* [nginx](https://github.com/roy-lau/log/blob/master/Linux/centOS/install/nginx.md)
 * python3.6
 * mysql
 * Redis
