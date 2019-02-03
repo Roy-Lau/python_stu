@@ -22,6 +22,8 @@
 - httpbin （ http://httpbin.org 服务器端）
 - urllib
 
+- 'requests[socksv5]'
+
 ### 了解http协议
 
 - HyperText transfer Protocol 超文本传输协议
@@ -42,4 +44,12 @@ URL： https://developer.github.com/
 - PUT:    修改资源
 - DELETE: 删除资源
 - HEAD：   查看响应
+
+#### [下载文件](./dowload_response.py)
+#### [响应钩子](./hook_response.py)
+#### [http认证](./http_authen.py)
+#### 代理
+#### session和cookie
+
+
 - OPTIONS： 查看可用请求方法
