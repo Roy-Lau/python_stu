@@ -3,7 +3,7 @@
 import requests
 
 def get_key_info(response,*args,**kwargs):
-	""" 回调函数）"""
+	""" 回调函数 """
 	print(response.headers['Content-Type'])
 
 

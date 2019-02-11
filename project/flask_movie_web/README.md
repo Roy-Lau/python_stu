@@ -812,7 +812,7 @@ create database flask_movie; # 创建一个新数据库
 use flask_movie;
 source /home/python/flask_movie_web/movie.sql; # 导入数据库
 show tables;
-select * from use;
+select * from user;
 
 cp -r flask_movie_web /usr/local/nginx/html # 将项目放到nginx下
 # 服务器是4核的，所有启动了四个

@@ -4,6 +4,8 @@
 
 * [示例](/example)
 	- [requests](/example/requests)
+* [笔记](/notes)
+	- [文件操作](/notes/lean_files.md)
 * [数据库](/db)
 	- [mysql](/db/mysql/)
 * [项目](/project)
