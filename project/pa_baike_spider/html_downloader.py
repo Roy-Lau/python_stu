@@ -1,5 +1,5 @@
 # coding:utf8
-import urllib2
+from urllib import request
 
 class HtmlDownloader(object):
 	""" html 下载器 """
@@ -7,7 +7,7 @@ class HtmlDownloader(object):
 		if url is None:
 			return None
 
-		response = urllib2.urlopen(url)
+		response = request.urlopen(url)
 		if response.getcode() != 200:
 			return None
 

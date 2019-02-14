@@ -3,7 +3,7 @@
 class HtmlOutputer(object):
 	""" html 输出器 """
 	def __init__(self):
-		self.data = []
+		self.datas = []
 
 	def collect_data(self,data):
 		if data is None:
@@ -11,13 +11,17 @@ class HtmlOutputer(object):
 		self.datas.append(data)
 
 	# ascii
-	def collect_data(self):
+	def output_html(self):
 		fout = open('output.html','w')
 
-		fout.write("<html><body><table>")
+		fout.write("<html><body><table border=1>")
 		for data in self.datas:
+			print(data['url'])
 			fout.write("<tr>")
-			fout.write("<td>%s</td><td>%s</td><td>%s</td>" % data['url'],data['title'].encode('utf-8'),data['summary'].encode('utf-8'))
+			# fout.write("<td>%s</td><td>%s</td><td>%s</td>" % data['url'],data['title'].encode('utf-8'),data['summary'].encode('utf-8'))
+			fout.write("<td>%s</td>" % data['url'])
+			fout.write("<td>%s</td>" % data['title'].encode('utf-8'))
+			fout.write("<td>%s</td>" % data['summary'].encode('utf-8'))
 			fout.write("</tr>")
 
 		fout.write("</html></body></table>")
