@@ -9,13 +9,17 @@ class HtmlParser(object):
 	def _get_new_urls(self,page_url,soup):
 		new_urls = set()
 		# /item/中文/150564
-		links = soup.find_all('a',href=re.compile(r"/item/%E9%98%BF%E5%A7%86%E6%96%AF%E7%89%B9%E4%B8%B9/2259975"))
+		links = soup.find_all('a',href=re.compile(r"^/item/"))
+		# print("links >>>",links)
 		for link in links:
+			# print(link)
 			new_url = link['href']
-			print(new_url)
+			# print("get_new_url_bar >> ",new_url)
 			new_full_url = parse.urljoin(page_url,new_url)
+			# print("new_full_url >> ",new_full_url)
 			new_urls.add(new_full_url)
-			return new_urls
+			# print("new urls list >> ", new_urls)
+		return new_urls
 
 	def _get_new_data(self,page_url,soup):
 		res_data = {}
@@ -23,8 +27,9 @@ class HtmlParser(object):
 		res_data['url'] = page_url
 
 		title_node = soup.find('dd',class_="lemmaWgt-lemmaTitle-title").find("h1")
+		# print("title_node >> ", title_node)
 		res_data["title"] = title_node.get_text()
-
+		print("正在抓取："+res_data['title']+"相关的百科信息……")
 		summary_node = soup.find('div',class_="lemma-summary")
 		res_data['summary'] = summary_node.get_text()
 

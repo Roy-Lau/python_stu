@@ -20,19 +20,20 @@ class SpiderMain(object):
 		count = 1
 		self.urls.add_new_url(root_url)
 		while self.urls.has_new_url():
-			# try:
-			new_url = self.urls.get_new_url()
-			html_count = self.downloader.download(new_url)
-			new_urls, new_data = self.parser.parse(new_url,html_count)
-			self.urls.add_new_urls(new_urls)
-			self.outputer.collect_data(new_data)
+			try:
+				new_url = self.urls.get_new_url()
+				html_count = self.downloader.download(new_url)
+				new_urls, new_data = self.parser.parse(new_url,html_count)
+				# print("new_urls,new_data >> "new_urls,new_data)
+				self.urls.add_new_urls(new_urls)
+				self.outputer.collect_data(new_data)
 
-			# 大于 1000 条数据就不抓取了
-			if count == 1000:
-				break
-			count = count + 1
-			# except:
-			# 	print("抓取失败！")
+				# 大于 1000 条数据就不抓取了
+				if count == 1000:
+					break
+				count = count + 1
+			except:
+				print("抓取失败！")
 		# 将抓取的数据输出到HTML文件中
 		self.outputer.output_html()
 

@@ -17,10 +17,8 @@ class HtmlOutputer(object):
 		fout.write("<html><body><table border=1>")
 		for data in self.datas:
 			fout.write("<tr>")
-			# fout.write("<td>%s</td><td>%s</td><td>%s</td>" % data['url'],data['title'].encode('utf-8'),data['summary'].encode('utf-8'))
-			fout.write("<td>%s</td>" % data['url'])
-			fout.write("<td>%s</td>" % data['title'].encode('utf-8'))
-			fout.write("<td>%s</td>" % data['summary'].encode('utf-8'))
+			fout.write("<td><a href='"+data['url']+"'>%s</td>" % data['title'])
+			fout.write("<td>%s</td>" % data['summary'])
 			fout.write("</tr>")
 
 		fout.write("</html></body></table>")
