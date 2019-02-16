@@ -16,10 +16,11 @@ NEWSPIDER_MODULE = 'pa_douban_top250.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'pa_douban_top250 (+http://www.yourdomain.com)'
+# USER_AGENT = 'pa_douban_top250 (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # 并发量：
@@ -59,9 +60,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'pa_douban_top250.middlewares.PaDoubanTop250DownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   # 'pa_douban_top250.middlewares.PaDoubanTop250DownloaderMiddleware': 543,
+   # 'pa_douban_top250.middlewares.my_proxy': 543,
+   'pa_douban_top250.middlewares.my_useragent': 544,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -73,9 +76,9 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 # pipelines   中间件
-#ITEM_PIPELINES = {
-#    'pa_douban_top250.pipelines.PaDoubanTop250Pipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'pa_douban_top250.pipelines.PaDoubanTop250Pipeline': 300,
+}
 
 # 认证相关的 设置
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -98,3 +101,8 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+mongo_host = '139.199.99.154'
+mongo_port = 27017
+mongo_db_name = 'RSFroum_test'
+mongo_db_collection = 'pa_douban_movie'
