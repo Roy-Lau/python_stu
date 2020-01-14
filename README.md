@@ -2,6 +2,8 @@
 
 > 记录一些学习心得
 
+* 卸载pip所有的包
+    ```pip freeze | grep -v "^-e" | xargs pip uninstall -y```
 * [示例](/example)
 	- [requests](/example/requests)
 * [笔记](/notes)
